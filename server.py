@@ -119,6 +119,20 @@ def suggest():
     if not columns:
         return jsonify({"questions": []}), 200
 
+    def fallback_questions():
+        names = [str(c) for c in columns]
+        numeric = [c for c in names if any(t in str(dtypes.get(c, "")).lower()
+                                           for t in ("int", "float", "number"))]
+        categorical = [c for c in names if c not in numeric]
+        questions = [f"How does {c} change across the dataset?" for c in numeric[:2]]
+        if categorical and numeric:
+            questions.append(f"Which {categorical[0]} has the highest average {numeric[0]}?")
+            questions.append(f"How does {numeric[0]} vary by {categorical[0]}?")
+        if categorical:
+            questions.append(f"What are the most common values in {categorical[0]}?")
+        questions.append(f"What are the key patterns and data quality issues across {', '.join(names[:4])}?")
+        return list(dict.fromkeys(questions))[:5]
+
     col_info = ", ".join(f"{c} ({dtypes.get(c, '?')})" for c in columns[:20])
     raw = call_llm_fast(
         [{"role": "user",
@@ -126,7 +140,7 @@ def suggest():
         system=SUGGEST_SYSTEM,
     )
     if not raw:
-        return jsonify({"questions": []}), 200
+        return jsonify({"questions": fallback_questions(), "source": "columns"}), 200
 
     print(f"[suggest] raw response: {raw[:300]}")
 
@@ -167,7 +181,9 @@ def suggest():
         if len(l) > 15 and "?" in l:
             lines.append(l)
     print(f"[suggest] fallback path: {lines}")
-    return jsonify({"questions": lines[:5]})
+    if lines:
+        return jsonify({"questions": lines[:5]})
+    return jsonify({"questions": fallback_questions(), "source": "columns"})
 
 @app.route("/analyse", methods=["POST"])
 def analyse():
@@ -176,7 +192,10 @@ def analyse():
         return {"error": "No file uploaded"}, 400
 
     q_text   = request.form.get("question", "Analyse this dataset fully.")
-    max_iter = int(request.form.get("max_iterations", 8))
+    try:
+        max_iter = max(2, min(5, int(request.form.get("max_iterations", 2))))
+    except (TypeError, ValueError):
+        max_iter = 2
     sid      = f"s_{int(time.time() * 1000)}"
 
     try:

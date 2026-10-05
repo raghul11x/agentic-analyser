@@ -8,7 +8,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("OPENROUTER_API_KEY", "")
-MODEL   = os.getenv("OPENROUTER_MODEL", "openrouter/auto")
+MODEL   = os.getenv("OPENROUTER_MODEL", "nvidia/nemotron-3-ultra-550b-a55b:free")
+FALLBACK_MODEL = os.getenv("OPENROUTER_FALLBACK_MODEL", "nvidia/nemotron-3.5-lightning:free")
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 SESSIONS      = {}

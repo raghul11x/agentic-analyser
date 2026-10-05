@@ -33,7 +33,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   /* HEADER */
@@ -64,7 +64,7 @@
 
   /* SIDEBAR */
   .sidebar {
-    width: 260px;
+    width: 300px;
     background: var(--surface);
     border-right: 1px solid var(--border);
     display: flex;
@@ -112,14 +112,14 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 7px 10px;
-    font-size: 0.75rem;
+    font-size: 0.88rem;
     color: var(--text2);
     cursor: pointer;
     transition: border-color .15s, color .15s;
     line-height: 1.45;
   }
   .sug-item:hover { border-color: var(--accent); color: var(--text); }
-  .sug-loading { font-size: 0.72rem; color: var(--text3); font-style: italic; }
+  .sug-loading { font-size: 0.84rem; color: var(--text3); font-style: italic; }
 
   /* FORM */
   textarea {
@@ -129,7 +129,7 @@
     border-radius: var(--radius);
     color: var(--text);
     padding: 8px 10px;
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     font-family: inherit;
     outline: none;
     resize: vertical;
@@ -143,7 +143,7 @@
     display: inline-flex; align-items: center; justify-content: center;
     gap: 7px; padding: 9px 16px;
     border-radius: var(--radius); border: none; cursor: pointer;
-    font-size: 0.81rem; font-weight: 600; font-family: inherit;
+    font-size: 0.92rem; font-weight: 600; font-family: inherit;
     transition: all .15s; width: 100%;
   }
   .btn-primary { background: var(--accent); color: #111; }
@@ -182,9 +182,7 @@
   .thinking-label { font-size: 0.78rem; color: var(--text2); }
 
   /* ITERATION CARD — hidden from feed, runs in background */
-  .iter-card {
-    display: none !important;
-  }
+  .iter-card { display:block; }
   .iter-header {
     display: flex; align-items: center; gap: 10px;
     padding: 10px 14px; cursor: pointer;
@@ -376,6 +374,159 @@
     .layout { flex-direction: column; }
     .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
   }
+
+  /* Dashboard refresh: editorial scale, soft panels, and violet/coral accents. */
+  :root {
+    --bg:#090910; --surface:#11111b; --surface2:#181827; --surface3:#24233a;
+    --border:#28263d; --border2:#393650; --accent:#7c83ff; --accent2:#a16eff;
+    --accent3:#aab0ff; --text:#f7f6ff; --text2:#c0bfd2; --text3:#8e8ca4;
+    --teal:#48dfc1; --orange:#ff9a55; --radius:14px; --radius-lg:22px;
+  }
+  body { font-size:16px; background:radial-gradient(ellipse at 52% -30%,#242047 0,transparent 54%),var(--bg); }
+  header { height:76px; padding:0 clamp(18px,3vw,48px); gap:8px; background:rgba(12,12,20,.88); border-bottom:1px solid rgba(255,255,255,.07); }
+  header > div:first-child { margin-right:clamp(14px,3vw,46px)!important; }
+  .logo-text { font-size:1.08rem; letter-spacing:-.5px; }
+  .logo-sub { font-size:.76rem; color:var(--text3); }
+  header > a { height:46px!important; padding:0 22px!important; border:0!important; border-radius:999px; font-size:.94rem!important; }
+  header > a[href="/"] { background:#f8f7ff; color:#171525!important; }
+  header > a[href="/preprocess"] { color:var(--text2)!important; }
+  header > a[href="/preprocess"]:hover { background:var(--surface2); color:var(--text)!important; }
+  .model-pill { background:#151522; border-color:var(--border); padding:8px 14px; font-size:.76rem; color:#c3c1d5; }
+  .history-btn { padding:9px 16px; border-radius:999px; font-size:.86rem; }
+  .layout { height:calc(100vh - 76px); padding:clamp(18px,2vw,30px); gap:20px; overflow:hidden; }
+  .sidebar { width:320px; border:1px solid var(--border); border-radius:var(--radius-lg); background:rgba(17,17,27,.88); padding-bottom:18px; }
+  .s-block { padding-left:20px; padding-right:20px; }
+  .s-sep { background:var(--border); margin-top:20px; }
+  .field-label { font-size:.78rem; letter-spacing:1.15px; color:#a4a2bb; margin-bottom:10px; }
+  .upload-zone { padding:24px 16px; border:1px dashed #55516f; border-radius:16px; background:linear-gradient(145deg,#201e35,#171724); }
+  .upload-zone:hover,.upload-zone.drag { border-color:var(--accent); background:#24213c; }
+  .upload-text { font-size:.94rem; color:#e4e2ef; }
+  .upload-hint { font-size:.79rem; color:var(--text3); margin-top:6px; }
+  .file-name { font-size:.84rem; color:#aaaaff; }
+  .sug-list { gap:8px; }
+  .sug-item { padding:11px 13px; border:1px solid var(--border); border-radius:12px; background:#171724; color:#d2d0e2; font-size:.9rem; line-height:1.55; }
+  .sug-item:hover { border-color:#777cff; background:#211f35; }
+  .sug-loading { font-size:.88rem; }
+  textarea { min-height:100px; padding:13px 14px; border-color:var(--border2); border-radius:13px; background:#14141f; font-size:1rem; line-height:1.55; }
+  textarea::placeholder { color:#77758d; }
+  .btn { min-height:46px; border-radius:999px; font-size:.95rem; }
+  .btn-primary { background:linear-gradient(100deg,#777cff,#a16eff); color:white; box-shadow:0 8px 24px rgba(124,131,255,.18); }
+  .btn-primary:hover { background:linear-gradient(100deg,#898eff,#b17cff); }
+  .btn-primary:disabled { color:#cfcee0; opacity:.5; }
+  .btn-secondary,.btn-danger { border-radius:999px; }
+  .main { min-width:0; border:1px solid rgba(255,255,255,.07); border-radius:var(--radius-lg); background:rgba(15,15,24,.76); }
+  .feed { padding:clamp(20px,3vw,42px); gap:18px; }
+  .empty-state { position:relative; width:100%; max-width:none; min-height:min(520px,65vh); margin:0; padding:clamp(28px,5vw,72px); display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.88fr); align-items:center; gap:36px; text-align:left; overflow:hidden; border:1px solid rgba(169,127,255,.2); border-radius:30px; color:var(--text2); background:radial-gradient(ellipse at 84% 55%,rgba(255,129,66,.8),transparent 37%),linear-gradient(115deg,#211c45 0%,#17142a 48%,#30171f 100%); box-shadow:inset 0 1px rgba(255,255,255,.08),0 28px 80px rgba(0,0,0,.24); }
+  .empty-state:before { content:"DATA INTELLIGENCE  ·  YOUR WORKSPACE"; grid-column:1/-1; align-self:end; margin-bottom:-26px; color:#b3adff; font-size:.78rem; font-weight:800; letter-spacing:1.7px; }
+  .empty-state h3 { grid-column:1; grid-row:2; align-self:end; max-width:620px; color:white; font-size:clamp(2.35rem,4.4vw,4.5rem); font-weight:800; line-height:.99; letter-spacing:-.055em; }
+  .empty-state h3:after { content:"Data, made clear."; display:block; color:#c2a3ff; }
+  .empty-state p { grid-column:1; grid-row:3; align-self:start; max-width:490px; color:#c1bdd7; font-size:1.05rem; line-height:1.8; }
+  .empty-state:after { content:"✦  INSIGHT ENGINE\A\AUpload a spreadsheet\AChoose a question\AGet a clear report"; white-space:pre-line; grid-column:2; grid-row:2/4; justify-self:stretch; align-self:center; min-height:280px; padding:34px; display:flex; align-items:center; color:#fff9f4; font-size:1.15rem; font-weight:650; line-height:2.15; border:1px solid rgba(255,255,255,.2); border-radius:27px; background:linear-gradient(145deg,rgba(133,44,72,.6),rgba(244,124,45,.96) 70%,#ffa31a); box-shadow:0 24px 70px rgba(228,93,50,.22); }
+  .thinking-card,.report-card,.fup-card { border-radius:18px; border-color:var(--border); }
+  .report-card { border-color:rgba(124,131,255,.58); box-shadow:0 18px 60px rgba(0,0,0,.18); }
+  .report-header { background:linear-gradient(100deg,#242044,#251b2b); font-size:.85rem; padding:16px 20px; }
+  .report-section-title,.step-label,.gallery-heading { font-size:.78rem; }
+  .report-bullets li,.fup-body { font-size:.98rem; }
+  .followup-bar { padding:16px 22px; background:#11111b; }
+  .followup-bar textarea { min-height:48px; }
+  .history-panel { top:76px; background:#11111b; }
+  .history-header,.history-item-name { font-size:.94rem; }
+  .history-item-date,.history-empty { font-size:.82rem; }
+  .progress-bar { height:5px; margin-top:8px; }
+  @media(max-width:900px) {
+    .layout { padding:14px; gap:12px; }
+    .sidebar { width:280px; }
+    .empty-state { grid-template-columns:1fr; gap:22px; }
+    .empty-state:before,.empty-state h3,.empty-state p,.empty-state:after { grid-column:1; grid-row:auto; }
+    .empty-state:before { margin:0; }
+    .empty-state:after { min-height:170px; }
+  }
+  @media(max-width:700px) {
+    header { height:auto; min-height:68px; padding:10px 14px; flex-wrap:wrap; }
+    header > div:first-child { margin-right:auto!important; }
+    header > a { height:40px!important; padding:0 13px!important; }
+    .layout { height:auto; min-height:calc(100vh - 68px); overflow:auto; flex-direction:column; }
+    .sidebar { width:100%; max-height:none; }
+    .main { min-height:55vh; }
+    .empty-state { min-height:460px; padding:28px; }
+  }
+  /* Larger desktop controls and a visible live analysis trail. */
+  body { font-size:18px; }
+  .layout { padding:clamp(22px,2.6vw,44px); gap:24px; }
+  .sidebar { width:clamp(350px,24vw,430px); }
+  .field-label { font-size:.86rem; }
+  .upload-text { font-size:1rem; }
+  .upload-hint,.file-name { font-size:.88rem; }
+  .sug-item { font-size:1rem; padding:13px 15px; }
+  textarea { min-height:120px; font-size:1.05rem; }
+  .btn { min-height:54px; font-size:1.02rem; }
+  .feed { padding:clamp(28px,3.4vw,56px); gap:20px; }
+  .thinking-card,.iter-card,.report-card,.fup-card { font-size:1rem; }
+  .thinking-card { padding:20px 22px; border-radius:18px; }
+  .thinking-label,.iter-title { font-size:1rem; }
+  .iter-status { font-size:.9rem; }
+  .iter-header { padding:18px 20px; }
+  .iter-body { padding:18px 22px; }
+  .tool-summary { font-size:.98rem; padding:14px 16px; }
+  .step-label { font-size:.82rem; }
+  .progress-bar { height:7px; }
+  .analysis-options { padding-top:16px!important; }
+  .depth-select-wrap { position:relative; }
+  .analysis-options select { appearance:none; -webkit-appearance:none; width:100%; height:54px; padding:0 46px 0 16px; border:1px solid #49465f; border-radius:14px; color:#f4f2ff; background:linear-gradient(145deg,#1b1a29,#13131d); font-family:inherit; font-size:1rem; font-weight:600; cursor:pointer; box-shadow:inset 0 1px rgba(255,255,255,.04); }
+  .analysis-options select:focus-visible { outline:2px solid #9395ff; outline-offset:2px; }
+  .analysis-options select option { color:#f4f2ff; background:#171622; }
+  .depth-select-chevron { position:absolute; width:18px; height:18px; right:16px; top:50%; transform:translateY(-50%); fill:none; stroke:#cbc9dc; stroke-width:1.8; pointer-events:none; }
+  .sidebar .btn { min-height:58px; padding:3px 18px; border:2px solid transparent; border-radius:999px; color:#f4f2ff; font-size:1rem; font-weight:700; letter-spacing:.01em; background:linear-gradient(145deg,#211f31,#15141f) padding-box,conic-gradient(from var(--liquid-angle),#fff 0deg,#666773 48deg,#e8e9f0 92deg,#6f7180 142deg,#fff 190deg,#737585 240deg,#eeeef3 294deg,#666773 336deg,#fff 360deg) border-box; box-shadow:inset 0 1px rgba(255,255,255,.09),0 8px 22px rgba(0,0,0,.2); }
+  .sidebar .btn-primary { color:#fff; background:linear-gradient(145deg,#292641,#191725) padding-box,conic-gradient(from var(--liquid-angle),#fff 0deg,#686779 48deg,#eeeafc 92deg,#767287 142deg,#fff 190deg,#716d87 240deg,#f1eff9 294deg,#686779 336deg,#fff 360deg) border-box; }
+  .sidebar .btn-secondary { color:#e4e2f1; }
+  .sidebar .btn-danger { color:#ff9298; background:linear-gradient(145deg,#2a1c27,#1d151d) padding-box,conic-gradient(from var(--liquid-angle),#ffb2b5 0deg,#63474d 48deg,#ffd0d0 92deg,#75535c 142deg,#ffb2b5 190deg,#714b53 240deg,#ffd0d0 294deg,#63474d 336deg,#ffb2b5 360deg) border-box; }
+  .sidebar .btn:before { display:none; }
+  .sidebar .btn-primary:disabled { opacity:.78; color:#d1cfe2; box-shadow:none; }
+  .sidebar .btn:not(:disabled):hover { filter:brightness(1.13); box-shadow:inset 0 1px rgba(255,255,255,.13),0 12px 28px rgba(0,0,0,.3),0 0 18px rgba(205,210,255,.12); }
+  .live-board { position:relative; overflow:hidden; padding:clamp(22px,3vw,38px); border:1px solid rgba(151,139,255,.3); border-radius:26px; background:linear-gradient(120deg,rgba(34,31,66,.98),rgba(19,19,31,.97) 56%,rgba(48,27,39,.96)); box-shadow:0 22px 70px rgba(0,0,0,.24); animation:board-enter .5s cubic-bezier(.2,.75,.25,1) both; }
+  .live-board:before { content:""; position:absolute; inset:-40% auto -40% -30%; width:45%; transform:skewX(-22deg); background:linear-gradient(90deg,transparent,rgba(255,255,255,.035),transparent); animation:board-sheen 6s ease-in-out infinite; pointer-events:none; }
+  .live-board-top { position:relative; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+  .live-board-eyebrow { display:flex; align-items:center; gap:10px; color:#aaa7c5; font-size:.78rem; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; }
+  .live-orb { width:10px; height:10px; border-radius:50%; background:#61e4c2; box-shadow:0 0 0 0 rgba(97,228,194,.55); animation:live-pulse 1.8s ease-out infinite; }
+  .live-board[data-state="complete"] .live-orb { background:#61e4c2; animation:none; }
+  .live-board[data-state="error"] .live-orb { background:#ff777e; animation:none; }
+  .live-board h2 { margin-top:16px; color:#fff; font-size:clamp(1.65rem,2.8vw,2.6rem); letter-spacing:-.045em; }
+  .live-board-copy { margin-top:8px; color:#bbb8d1; font-size:1rem; }
+  .live-board-time { padding:12px 17px; border:1px solid rgba(255,255,255,.11); border-radius:16px; background:rgba(10,10,18,.42); text-align:right; flex-shrink:0; }
+  .live-board-time span { display:block; color:#9693ad; font-size:.72rem; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; }
+  .live-board-time strong { display:block; margin-top:4px; color:#fff; font-size:1.65rem; font-variant-numeric:tabular-nums; }
+  .live-metrics { position:relative; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-top:28px; }
+  .live-metric { padding:16px 17px; border:1px solid rgba(255,255,255,.085); border-radius:16px; background:rgba(10,10,18,.34); }
+  .live-metric span { display:block; color:#9c99b2; font-size:.73rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; }
+  .live-metric strong { display:block; margin-top:7px; color:#f8f7ff; font-size:1.5rem; font-variant-numeric:tabular-nums; }
+  .live-track { position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:24px; }
+  .live-stage { position:relative; padding-top:17px; border-top:3px solid rgba(255,255,255,.13); color:#77748f; font-size:.78rem; font-weight:700; transition:color .25s,border-color .25s; }
+  .live-stage:before { content:""; position:absolute; top:-7px; left:0; width:11px; height:11px; border-radius:50%; background:#39364f; transition:background .25s,box-shadow .25s; }
+  .live-stage.active,.live-stage.done { color:#d4d1ec; border-color:#8985ff; }
+  .live-stage.active:before,.live-stage.done:before { background:#a59dff; box-shadow:0 0 16px rgba(165,157,255,.65); }
+  .live-board[data-state="complete"] .live-stage { color:#d4d1ec; border-color:#61cdb0; }
+  .live-board[data-state="complete"] .live-stage:before { background:#61e4c2; box-shadow:0 0 14px rgba(97,228,194,.5); }
+  @keyframes live-pulse { 70%{box-shadow:0 0 0 10px rgba(97,228,194,0)} 100%{box-shadow:0 0 0 0 rgba(97,228,194,0)} }
+  @keyframes board-enter { from{opacity:0;transform:translateY(12px) scale(.99)} to{opacity:1;transform:none} }
+  @keyframes board-sheen { 0%,35%{left:-35%} 75%,100%{left:120%} }
+  @media(max-width:900px) { .live-metrics { grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:560px) { .live-board-top{align-items:flex-start;flex-direction:column}.live-board-time{text-align:left}.live-track{grid-template-columns:repeat(2,1fr);row-gap:17px}.live-metrics{gap:8px}.live-metric{padding:12px}.live-metric strong{font-size:1.25rem} }
+  @media(prefers-reduced-motion:reduce) { .live-board,.live-board:before,.live-orb { animation:none!important; } }
+  /* Liquid-metal button treatment, adapted from the supplied shader component. */
+  @property --liquid-angle { syntax:"<angle>"; inherits:false; initial-value:0deg; }
+  button { --liquid-angle:0deg; position:relative; isolation:isolate; overflow:hidden; transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s ease,filter .22s ease; }
+  button:not(:disabled):hover { transform:scale(1.01); filter:brightness(1.08); box-shadow:0 12px 30px rgba(0,0,0,.24),0 0 18px rgba(205,210,255,.14); }
+  button:not(:disabled):active { transform:scale(.98); }
+  button:focus-visible { outline:2px solid #cbd0ff; outline-offset:3px; }
+  button:before { content:""; position:absolute; inset:0; padding:2px; border-radius:inherit; background:conic-gradient(from var(--liquid-angle),#fff 0deg,#5e6067 42deg,#f0f1f4 86deg,#74767d 132deg,#fff 182deg,#777981 228deg,#f7f7f8 282deg,#666870 324deg,#fff 360deg); -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; animation:liquid-metal-spin 6s linear infinite; pointer-events:none; z-index:1; }
+  button:after { content:""; position:absolute; inset:1px; left:-70%; width:48%; border-radius:inherit; background:linear-gradient(105deg,transparent,rgba(255,255,255,.25),rgba(220,225,255,.08),transparent); transform:skewX(-20deg); animation:liquid-metal-sweep 4s ease-in-out infinite; pointer-events:none; z-index:0; }
+  button > * { position:relative; z-index:2; }
+  button:disabled:before,button:disabled:after { animation:none; opacity:0; }
+  @keyframes liquid-metal-spin { to { --liquid-angle:360deg; } }
+  @keyframes liquid-metal-sweep { 0%,15%{left:-70%;opacity:0} 30%{opacity:.9} 65%,100%{left:135%;opacity:0} }
+  @media(prefers-reduced-motion:reduce) { button { transition:none!important; } button:before,button:after { animation:none!important; opacity:0!important; } button:not(:disabled):hover,button:not(:disabled):active { transform:none; } }
+  @media(max-width:900px) { .sidebar { width:320px; } }
+  @media(max-width:700px) { body{font-size:16px}.sidebar{width:100%}.feed{padding:16px} }
 </style>
 </head>
 <body>
@@ -434,6 +585,18 @@
       <textarea id="question" rows="3" placeholder="e.g. What are the key revenue drivers?"></textarea>
     </div>
 
+    <div class="s-block analysis-options" style="padding-top:12px">
+      <label class="field-label" for="analysisDepth">Analysis depth</label>
+      <div class="depth-select-wrap">
+        <select id="analysisDepth">
+          <option value="2" selected>Quick · 2 steps</option>
+          <option value="3">Balanced · 3 steps</option>
+          <option value="5">Detailed · 5 steps</option>
+        </select>
+        <svg class="depth-select-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg>
+      </div>
+    </div>
+
 
 
     <div class="s-block" style="padding-top:12px">
@@ -464,8 +627,8 @@
   <div class="main">
     <div class="feed" id="feed">
       <div class="empty-state">
-        <h3>Ready to Analyse</h3>
-        <p>Upload a dataset, select a question, and the agent will autonomously explore your data and generate a structured report.</p>
+        <h3>Turn raw data into clear decisions.</h3>
+        <p>Upload your spreadsheet, choose what you want to understand, and get a focused analysis with findings, trends, and recommendations.</p>
       </div>
     </div>
 
@@ -482,6 +645,7 @@ let sessionId = null, isRunning = false;
 let currentIterCard = null, currentIterBody = null, currentIterOk = true;
 let thinkingCard = null;
 let allPlots = [];  // collect every chart across all iterations
+let boardTimer = null, boardStartedAt = 0, boardStepCount = 0, boardToolCount = 0;
 
 const fileInput     = document.getElementById('fileInput');
 const dropZone      = document.getElementById('dropZone');
@@ -624,6 +788,8 @@ async function startAnalysis() {
     questionEl.value = question;
   }
 
+  startLiveBoard(question);
+
   // Show spinner immediately before any network call
   const loadDiv = document.createElement('div');
   loadDiv.className = 'thinking-card';
@@ -635,7 +801,7 @@ async function startAnalysis() {
   const fd = new FormData();
   Array.from(fileInput.files).forEach(f => fd.append('file', f));
   fd.append('question', question);
-  fd.append('max_iterations', 8);  // fixed iterations, runs in background
+  fd.append('max_iterations', document.getElementById('analysisDepth').value);
   try {
     const response = await fetch('/analyse', { method:'POST', body:fd });
     if (!response.ok) {
@@ -685,6 +851,7 @@ async function sendFollowup() {
   const q = followupInput.value.trim();
   if (!q || !sessionId || isRunning) return;
   isRunning = true; followupBtn.disabled = true; followupInput.value = '';
+  startLiveBoard('Follow-up: ' + q);
   addFupQuestion(q);
   await consumeSSE(await fetch('/followup', {
     method:'POST', headers:{'Content-Type':'application/json'},
@@ -718,6 +885,7 @@ function handleSSE(raw) {
     sessionId = data.session_id;
 
   } else if (event === 'thinking') {
+    updateLiveBoard({ step: data.iteration, total: data.total, phase: data.label || 'Working through the dataset', stage: 1 });
     // Only create the thinking card once — update it on subsequent iterations
     if (!thinkingCard) {
       const div = document.createElement('div');
@@ -738,6 +906,9 @@ function handleSSE(raw) {
     closeCurrentIter();
     currentIterOk = true;
     const { card, body } = makeIterCard(data.iteration, data.total, data.label);
+    feed.appendChild(card);
+    body.classList.add('open');
+    card.querySelector('.iter-chevron')?.classList.add('open');
     currentIterCard = card; currentIterBody = body;
     // Show rate-limit warning if label mentions it
     if (data.label && data.label.toLowerCase().includes('rate')) {
@@ -745,10 +916,13 @@ function handleSSE(raw) {
     }
 
   } else if (event === 'agent') {
+    updateLiveBoard({ phase: 'Interpreting results and planning the next step', stage: data.content?.includes('```') ? 2 : 1 });
     const summary = extractSummary(data.content);
     if (summary && currentIterBody) addStep(currentIterBody, 'Analysis', summary, false);
 
   } else if (event === 'tool') {
+    boardToolCount += 1;
+    updateLiveBoard({ phase: data.status === 'Success' ? 'Code completed — reviewing its results' : 'A tool step needs a retry', stage: 3, tools: boardToolCount, chart: Boolean(data.plot) });
     if (currentIterBody) {
       const ok = data.status === 'Success';
       if (!ok) currentIterOk = false;
@@ -769,6 +943,8 @@ function handleSSE(raw) {
   } else if (event === 'final_report') {
     removeThinking(); closeCurrentIter();
     if (data.plot) allPlots.push(data.plot);
+    updateLiveBoard({ phase:'Report ready — analysis is complete', stage:3, charts:allPlots.length });
+    finishLiveBoard('complete', 'Analysis complete — your report is ready.');
     addFinalReport(data.content, allPlots);
     exportWrap.style.display = 'block';
 
@@ -777,6 +953,7 @@ function handleSSE(raw) {
     addFupAnswer(data.content);
 
   } else if (event === 'error') {
+    finishLiveBoard('error', data.message || 'The analysis could not finish.');
     removeThinking();
     const errCard = document.createElement('div');
     errCard.style.cssText = 'background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);border-radius:var(--radius-lg);padding:14px 16px;font-size:.8rem;color:var(--danger)';
@@ -785,6 +962,8 @@ function handleSSE(raw) {
     scrollFeed();
 
   } else if (event === 'done') {
+    const liveBoard = document.getElementById('liveBoard');
+    if (isRunning && liveBoard?.dataset.state === 'running') finishLiveBoard('complete', 'Analysis run finished.');
     isRunning = false; runBtn.disabled = false;
     followupBtn.disabled = false;
     followupBar.style.display = 'flex';
@@ -792,6 +971,60 @@ function handleSSE(raw) {
     removeThinking(); closeCurrentIter();
   }
   scrollFeed();
+}
+
+function startLiveBoard(question) {
+  if (boardTimer) clearInterval(boardTimer);
+  document.getElementById('liveBoard')?.remove();
+  boardStartedAt = Date.now(); boardStepCount = 0; boardToolCount = 0;
+  const board = document.createElement('section');
+  board.className = 'live-board'; board.id = 'liveBoard'; board.dataset.state = 'running';
+  board.innerHTML = `
+    <div class="live-board-top">
+      <div><div class="live-board-eyebrow"><i class="live-orb"></i><span id="liveBoardStatus">LIVE ANALYSIS</span></div>
+      <h2>Reading your dataset</h2><p class="live-board-copy" id="liveBoardCopy"></p></div>
+      <div class="live-board-time"><span>Elapsed</span><strong id="liveElapsed">00:00</strong></div>
+    </div>
+    <div class="live-metrics">
+      <div class="live-metric"><span>Current step</span><strong id="liveStep">0 / 2</strong></div>
+      <div class="live-metric"><span>Tool runs</span><strong id="liveTools">0</strong></div>
+      <div class="live-metric"><span>Charts built</span><strong id="liveCharts">0</strong></div>
+      <div class="live-metric"><span>Run mode</span><strong id="liveMode">Quick</strong></div>
+    </div>
+    <div class="live-track"><div class="live-stage active">Inspect</div><div class="live-stage">Analyze</div><div class="live-stage">Compute</div><div class="live-stage">Report</div></div>`;
+  feed.insertBefore(board, feed.firstChild);
+  document.getElementById('liveBoardCopy').textContent = question.length > 105 ? question.slice(0,102) + '…' : question;
+  const depth = Number(document.getElementById('analysisDepth').value);
+  document.getElementById('liveStep').textContent = `0 / ${depth}`;
+  document.getElementById('liveMode').textContent = question.startsWith('Follow-up:') ? 'Follow-up' : depth <= 2 ? 'Quick' : depth <= 3 ? 'Balanced' : 'Detailed';
+  boardTimer = setInterval(() => {
+    const seconds = Math.floor((Date.now() - boardStartedAt) / 1000);
+    const mins = String(Math.floor(seconds / 60)).padStart(2,'0');
+    const secs = String(seconds % 60).padStart(2,'0');
+    const elapsed = document.getElementById('liveElapsed');
+    if (elapsed) elapsed.textContent = `${mins}:${secs}`;
+  }, 1000);
+}
+
+function updateLiveBoard({step, total, phase, stage, tools, chart, charts} = {}) {
+  const board = document.getElementById('liveBoard');
+  if (!board) return;
+  if (Number.isFinite(step)) { boardStepCount = step; const el=document.getElementById('liveStep'); if(el) el.textContent=`${step} / ${total || 2}`; }
+  if (Number.isFinite(tools)) { const el=document.getElementById('liveTools'); if(el) el.textContent=tools; }
+  if (chart) { const el=document.getElementById('liveCharts'); if(el) el.textContent=allPlots.length + 1; }
+  if (Number.isFinite(charts)) { const el=document.getElementById('liveCharts'); if(el) el.textContent=charts; }
+  const copy=document.getElementById('liveBoardCopy'); if(copy && phase) copy.textContent=phase;
+  const status=document.getElementById('liveBoardStatus'); if(status) status.textContent='LIVE ANALYSIS';
+  if (Number.isFinite(stage)) board.querySelectorAll('.live-stage').forEach((node,i)=>{ node.classList.toggle('active',i===stage); node.classList.toggle('done',i<stage); });
+}
+
+function finishLiveBoard(state, message) {
+  const board=document.getElementById('liveBoard'); if(!board) return;
+  board.dataset.state=state;
+  const status=document.getElementById('liveBoardStatus'); if(status) status.textContent=state==='complete'?'COMPLETE':'NEEDS ATTENTION';
+  const copy=document.getElementById('liveBoardCopy'); if(copy) copy.textContent=message;
+  if(boardTimer) { clearInterval(boardTimer); boardTimer=null; }
+  if(state==='complete') board.querySelectorAll('.live-stage').forEach(node=>{node.classList.remove('active');node.classList.add('done')});
 }
 
 // ITER CARD
@@ -981,7 +1214,7 @@ function addFupAnswer(content) {
 }
 
 // HELPERS
-function clearFeed()  { feed.innerHTML=''; currentIterCard=null; currentIterBody=null; thinkingCard=null; allPlots=[]; }
+function clearFeed()  { if(boardTimer){clearInterval(boardTimer);boardTimer=null;} feed.innerHTML=''; currentIterCard=null; currentIterBody=null; thinkingCard=null; allPlots=[]; }
 function scrollFeed() { feed.scrollTop = feed.scrollHeight; }
 function removeThinking() { if(thinkingCard&&!thinkingCard.classList.contains('iter-card')){ thinkingCard.remove(); } thinkingCard=null; }
 function escHtml(t) { return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }

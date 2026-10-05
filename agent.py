@@ -3,7 +3,7 @@ import time
 
 import requests as req_lib
 
-from config import API_KEY, API_URL, MODEL, SESSIONS
+from config import API_KEY, API_URL, MODEL, FALLBACK_MODEL, SESSIONS
 from executor import execute_python
 from utils import extract_code_blocks, strip_code_blocks, sse, grab_plot
 
@@ -98,7 +98,7 @@ If you need code, write one ```python block. PLOT_PATH is pre-defined.
 Save plots: plt.savefig(PLOT_PATH, bbox_inches='tight', dpi=150) then plt.close()
 Be concise. One paragraph maximum. No meta-commentary."""
 
-def _post(messages: list, max_tokens: int, timeout: int):
+def _post(messages: list, max_tokens: int, timeout: int, model: str = MODEL):
     return req_lib.post(
         url=API_URL,
         headers={
@@ -107,65 +107,46 @@ def _post(messages: list, max_tokens: int, timeout: int):
             "HTTP-Referer": "http://localhost:5050",
             "X-Title": "Agentic Analyser",
         },
-        json={"model": MODEL, "messages": messages, "max_tokens": max_tokens},
+        json={"model": model, "messages": messages, "max_tokens": max_tokens},
         timeout=timeout,
     )
 
-def call_llm(messages: list, system: str = None, max_tokens: int = 2000) -> str:
-    """Standard LLM call with retry on rate-limit."""
+def call_llm(messages: list, system: str = None, max_tokens: int = 1400) -> str:
+    """Try the preferred model once, then move promptly to the fallback."""
     sys_msg = system or SYSTEM_PROMPT
     full = [{"role": "system", "content": sys_msg}] + messages
-    for attempt in range(3):
+    models = list(dict.fromkeys((MODEL, FALLBACK_MODEL)))
+    for index, model in enumerate(models):
         try:
-            resp = _post(full, max_tokens, timeout=45)
-            print(f"[llm] HTTP {resp.status_code}")
-            if resp.status_code == 429:
-                wait = 30 * (attempt + 1)
-                print(f"[llm] rate limited — waiting {wait}s")
-                time.sleep(wait)
-                continue
+            timeout = 18 if index == 0 else 25
+            resp = _post(full, max_tokens, timeout=timeout, model=model)
+            print(f"[llm] {model} HTTP {resp.status_code}")
             if resp.status_code >= 400:
-                return f"Error {resp.status_code}: {resp.text[:100]}"
-            try:
-                data = resp.json()
-            except Exception:
-                time.sleep(5)
                 continue
+            data = resp.json()
             if "error" in data:
-                msg  = data["error"].get("message", "")
-                code = str(data["error"].get("code", ""))
-                if "rate" in msg.lower() or "429" in code or "quota" in msg.lower():
-                    wait = 30 * (attempt + 1)
-                    time.sleep(wait)
-                    continue
-                return f"API Error: {msg}"
+                continue
             return data["choices"][0]["message"]["content"]
-        except req_lib.exceptions.Timeout:
-            print(f"[llm] timeout attempt {attempt + 1}")
-            time.sleep(5)
         except Exception as e:
-            print(f"[llm] exception: {e}")
-            time.sleep(5)
-    return "Max retries reached."
+            print(f"[llm] {model} failed; trying next model: {e}")
+    return "Both configured OpenRouter models failed. Check the server log and API key."
 
 def call_llm_fast(messages: list, system: str = None) -> str:
     """Low-token call — used for question suggestions."""
     sys_msg = system or SUGGEST_SYSTEM
     full = [{"role": "system", "content": sys_msg}] + messages
-    for attempt in range(2):
+    for index, model in enumerate(dict.fromkeys((MODEL, FALLBACK_MODEL))):
         try:
-            resp = _post(full, max_tokens=300, timeout=20)
-            if resp.status_code == 429:
-                time.sleep(20)
-                continue
+            resp = _post(full, max_tokens=500, timeout=15 if index == 0 else 20, model=model)
+            print(f"[suggest] {model} HTTP {resp.status_code}")
             if resp.status_code >= 400:
-                return ""
+                continue
             data = resp.json()
             if "error" in data:
-                return ""
+                continue
             return data["choices"][0]["message"]["content"]
-        except Exception:
-            time.sleep(3)
+        except Exception as e:
+            print(f"[suggest] {model} failed; trying next model: {e}")
     return ""
 
 def run_codes(code_blocks: list, plot_path: str):
