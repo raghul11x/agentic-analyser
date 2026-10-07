@@ -24,6 +24,68 @@
     --radius:   8px;
     --radius-lg:12px;
     --font:     'Inter','Segoe UI',system-ui,sans-serif;
+    --nav-height:76px;
+    --nav-link-gap:8px;
+    --hero-gutter:64px;
+    --hero-radius:28px;
+    --hero-glass:rgba(12,12,20,.72);
+    --hero-border:rgba(255,255,255,.08);
+    --hero-glow-crimson:#B3382C;
+    --hero-glow-orange:#D2793F;
+    --hero-glow-gold:#C9A25A;
+    --hero-glow-olive:#5E7355;
+    --hero-cream:#F3E3B5;
+    --hero-content-gap:40px;
+    --hero-glow-crimson-soft:rgba(179,56,44,.46);
+    --hero-glow-orange-soft:rgba(210,121,63,.42);
+    --hero-glow-gold-soft:rgba(201,162,90,.34);
+    --hero-glow-olive-soft:rgba(94,115,85,.28);
+    --hero-muted:rgba(255,255,255,.72);
+    --hero-glass-border:rgba(255,255,255,.08);
+    --hero-side-space:64px;
+    --hero-mobile-space:12px;
+    --hero-top-space:120px;
+    --hero-scroll-space:80px;
+    --hero-white:#ffffff;
+    --hero-shadow:rgba(0,0,0,.25);
+    --hero-highlight:rgba(255,255,255,.035);
+    --hero-divider-color:rgba(255,255,255,.22);
+    --nav-gap:24px;
+    --nav-action-gap:16px;
+    --nav-link-padding-x:17px;
+    --nav-link-height:40px;
+    --nav-control-size:44px;
+    --nav-pill-radius:999px;
+    --nav-mobile-padding:28px;
+    --nav-mobile-link-height:64px;
+    --nav-mobile-gap:12px;
+    --nav-border-color:rgba(255,255,255,.075);
+    --nav-glass:rgba(11,11,18,.24);
+    --nav-links-glass:rgba(7,7,13,.2);
+    --nav-muted:rgba(255,255,255,.68);
+    --nav-hover:rgba(255,255,255,.075);
+    --nav-active:rgba(255,255,255,.13);
+    --nav-model-bg:rgba(10,10,17,.3);
+    --nav-model-border:rgba(255,255,255,.12);
+    --nav-model-text:rgba(255,255,255,.7);
+    --nav-divider-color:rgba(255,255,255,.18);
+    --nav-control-bg:rgba(15,15,24,.45);
+    --nav-control-border:rgba(255,255,255,.15);
+    --nav-overlay-bg:rgba(9,9,16,.88);
+    --nav-mobile-link-bg:rgba(255,255,255,.045);
+    --nav-mobile-link-border:rgba(255,255,255,.11);
+    --nav-mobile-link-active:rgba(255,255,255,.12);
+    --nav-focus:var(--accent);
+    --nav-white:#fff;
+    --nav-logo-glow:rgba(179,56,44,.2);
+    --nav-links-border:rgba(255,255,255,.09);
+    --nav-inset-highlight:rgba(255,255,255,.08);
+    --nav-transition:.2s;
+    --nav-mobile-link-radius:18px;
+    --nav-mobile-active-border:rgba(255,255,255,.28);
+    --nav-tablet-gap:14px;
+    --nav-tablet-action-gap:12px;
+    --nav-mobile-control-size:40px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -100,6 +162,7 @@
     border-color: var(--accent);
     background: rgba(200,255,62,.04);
   }
+  .upload-zone:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
   .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
   .upload-text { font-size: 0.78rem; color: var(--text2); margin-bottom: 3px; }
   .upload-hint { font-size: 0.68rem; color: var(--text3); }
@@ -527,20 +590,109 @@
   @media(prefers-reduced-motion:reduce) { button { transition:none!important; } button:before,button:after { animation:none!important; opacity:0!important; } button:not(:disabled):hover,button:not(:disabled):active { transform:none; } }
   @media(max-width:900px) { .sidebar { width:320px; } }
   @media(max-width:700px) { body{font-size:16px}.sidebar{width:100%}.feed{padding:16px} }
+
+  /* Analyse hero and page flow. The workspace keeps its existing IDs and behavior below. */
+  body { display:block; overflow-x:hidden; background:var(--bg); }
+  .hero-wrap { position:relative; isolation:isolate; min-height:100svh; display:grid; padding:32px var(--hero-side-space) 44px; }
+  .hero-aurora { position:absolute; z-index:-1; top:-8%; left:6%; width:88%; height:68%; opacity:0; filter:blur(110px); pointer-events:none; background:radial-gradient(ellipse at 43% 12%,var(--hero-glow-crimson-soft),transparent 42%),radial-gradient(ellipse at 67% 18%,var(--hero-glow-orange-soft),transparent 38%),radial-gradient(ellipse at 83% 20%,var(--hero-glow-gold-soft),transparent 37%),radial-gradient(ellipse at 100% 30%,var(--hero-glow-olive-soft),transparent 34%); animation:hero-glow-in 1.4s ease-out forwards,hero-glow-drift 24s ease-in-out 1.4s infinite alternate; }
+  .hero-card { position:relative; width:100%; max-width:1920px; min-height:calc(100svh - 76px); margin:0 auto; overflow:hidden; display:flex; flex-direction:column; border:1px solid var(--hero-glass-border); border-radius:var(--hero-radius); background:var(--hero-glass); -webkit-backdrop-filter:blur(26px); backdrop-filter:blur(26px); box-shadow:0 28px 90px var(--hero-shadow),inset 0 1px var(--hero-highlight); }
+  .hero-content { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:clamp(64px,9vh,var(--hero-top-space)) 28px 34px; text-align:center; }
+  .hero-title { display:flex; flex-direction:column; color:var(--hero-white); font-size:clamp(40px,5.1vw,80px); font-weight:750; letter-spacing:-.055em; line-height:1.15; }
+  .hero-title span { display:block; }
+  .hero-title,.hero-stats,.hero-description { opacity:0; transform:translateY(18px); animation:hero-rise .8s cubic-bezier(.2,.7,.25,1) forwards; }
+  .hero-title { animation-delay:.1s; }
+  .hero-stats { animation-delay:.2s; }
+  .hero-description { animation-delay:.3s; }
+  .hero-stats { display:flex; align-items:center; justify-content:center; gap:clamp(20px,3vw,44px); margin-top:48px; }
+  .hero-stat { display:flex; align-items:center; gap:14px; text-align:left; }
+  .hero-stat strong { color:var(--hero-cream); font-size:40px; font-weight:650; line-height:1; font-variant-numeric:tabular-nums; }
+  .hero-stat span { color:var(--hero-muted); font-size:13px; line-height:1.5; }
+  .hero-stat-divider { width:1px; height:48px; background:var(--hero-divider-color); }
+  .hero-description { max-width:520px; margin-top:var(--hero-content-gap); color:var(--hero-muted); font-size:16px; line-height:1.75; }
+  .scroll-discover { display:inline-flex; flex-direction:column; align-items:center; gap:9px; margin-top:clamp(56px,8vh,var(--hero-scroll-space)); color:var(--hero-muted); font-size:.8rem; letter-spacing:.08em; text-decoration:none; }
+  .scroll-discover svg { width:22px; height:22px; fill:none; stroke:var(--hero-cream); stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; animation:scroll-bob 1.8s ease-in-out infinite; }
+  .scroll-discover:hover { color:var(--hero-white); }
+  .layout#workspace { width:100%; max-width:1920px; height:auto; min-height:calc(100svh - var(--nav-height)); margin:0 auto; padding:28px clamp(20px,3vw,44px) 52px; overflow:visible; }
+  .layout#workspace .main { min-height:720px; }
+  .history-panel { top:20px; z-index:2200; }
+  @keyframes hero-rise { to { opacity:1;transform:translateY(0); } }
+  @keyframes hero-glow-in { to { opacity:1; } }
+  @keyframes hero-glow-drift { from { transform:translate3d(-1%,0,0) scale(1); } to { transform:translate3d(2%,2%,0) scale(1.04); } }
+  @keyframes scroll-bob { 0%,100% { transform:translateY(0); } 50% { transform:translateY(6px); } }
+  @media(max-width:1023px) {
+    .hero-wrap { padding:20px 24px 36px; }
+    .hero-card { min-height:calc(100svh - 56px); }
+    .hero-content { padding-top:clamp(58px,8vh,90px); }
+    .layout#workspace { min-height:calc(100svh - var(--nav-height)); }
+  }
+  @media(max-width:700px) {
+    .hero-wrap { min-height:100svh; padding:12px var(--hero-mobile-space) 20px; }
+    .hero-card { min-height:calc(100svh - 32px); border-radius:20px; }
+    .hero-content { padding:54px 20px 26px; }
+  .hero-title { font-size:clamp(32px,10vw,40px); line-height:1.15; letter-spacing:-.045em; }
+    .hero-stats { width:100%; gap:14px; margin-top:34px; }
+    .hero-stat { flex:1; justify-content:center; gap:9px; }
+    .hero-stat strong { font-size:34px; }
+    .hero-stat span { font-size:11px; }
+    .hero-stat-divider { height:42px; }
+    .hero-description { margin-top:28px; font-size:14px; }
+    .scroll-discover { margin-top:42px; }
+    .layout#workspace { min-height:0; padding:16px 12px 32px; }
+    .layout#workspace .main { min-height:60vh; }
+  }
+  @media(prefers-reduced-motion:reduce) {
+    .hero-title,.hero-stats,.hero-description { opacity:1;transform:none;animation:none; }
+    .hero-aurora { opacity:1;transform:none;animation:none; }
+    .scroll-discover svg { animation:none; }
+  }
 </style>
+<link rel="stylesheet" href="/static/shared.css"/>
 </head>
 <body>
 
-<header>
-  <div style="margin-right:28px">
-    <div class="logo-text">Agentic Analyser</div>
-    <div class="logo-sub">Autonomous Data Intelligence</div>
+<section class="hero-wrap" aria-labelledby="heroTitle">
+  <div class="hero-aurora" aria-hidden="true"></div>
+  <div class="hero-card">
+    <header class="app-navbar">
+      <a class="app-brand" href="/" aria-label="Agentic Analyser home">
+        <svg viewBox="0 0 40 40" role="img" aria-label=""><path d="M8 29 18 11l8 18 7-13M8 29h25M18 11h15"/><circle cx="8" cy="29" r="2.5"/><circle cx="18" cy="11" r="2.5"/><circle cx="26" cy="29" r="2.5"/><circle cx="33" cy="16" r="2.5"/></svg>
+        <span>Agentic Analyser</span>
+      </a>
+      <nav class="app-nav-links" aria-label="Main navigation">
+        <a href="/" class="nav-link active" aria-current="page">Analyse</a>
+        <a href="/preprocess" class="nav-link">Preprocess</a>
+        <button class="nav-link history-btn" id="historyToggle" type="button">History</button>
+      </nav>
+      <div class="nav-actions">
+        <div class="model-pill" id="modelBadge" aria-label="Primary model">Connecting…</div>
+        <span class="nav-divider" aria-hidden="true"></span>
+        <button class="btn btn-primary nav-cta" id="heroStartAnalysis" type="button">Start Analysis</button>
+        <button class="nav-menu-toggle" id="navMenuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileNavOverlay">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="hero-content">
+      <h1 id="heroTitle" class="hero-title"><span>Turn Raw Datasets</span><span>Into Clear Answers</span></h1>
+      <div class="hero-stats" aria-label="Project capabilities">
+        <div class="hero-stat"><strong>3</strong><span>Analysis Depths<br/>(Quick, Balanced, Detailed)</span></div>
+        <span class="hero-stat-divider" aria-hidden="true"></span>
+        <div class="hero-stat"><strong>7</strong><span>Preprocessing<br/>Stages</span></div>
+      </div>
+      <p class="hero-description">Upload a CSV or Excel file, ask a question, and watch an AI agent write and run Python to analyse it. Clean and prepare your data first with the built-in Preprocess workspace.</p>
+      <a class="scroll-discover" href="#workspace"><span>Scroll to Discover</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg></a>
+    </div>
   </div>
-  <a href="/" style="padding:0 18px;height:54px;display:flex;align-items:center;font-size:.8rem;font-weight:600;color:var(--accent);cursor:pointer;border-bottom:2px solid var(--accent);text-decoration:none">Analyse</a>
-  <a href="/preprocess" style="padding:0 18px;height:54px;display:flex;align-items:center;font-size:.8rem;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;text-decoration:none;transition:color .15s">Preprocess</a>
-  <div class="model-pill" id="modelBadge">Connecting…</div>
-  <button class="history-btn" id="historyToggle" style="margin-left:10px">History</button>
-</header>
+</section>
+
+<div class="mobile-nav-overlay" id="mobileNavOverlay" hidden>
+  <button class="mobile-nav-close" id="mobileNavClose" type="button" aria-label="Close navigation menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+  <nav class="mobile-nav-list" aria-label="Mobile navigation">
+    <a href="/" class="mobile-nav-link active" aria-current="page">Analyse</a>
+    <a href="/preprocess" class="mobile-nav-link">Preprocess</a>
+    <button class="mobile-nav-link" id="mobileHistoryToggle" type="button">History</button>
+  </nav>
+</div>
 
 <!-- HISTORY PANEL -->
 <div class="history-panel" id="historyPanel">
@@ -553,14 +705,14 @@
   </div>
 </div>
 
-<div class="layout">
+<div class="layout" id="workspace">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
 
     <div class="s-block" style="padding-top:18px">
       <span class="field-label">Dataset</span>
-      <div class="upload-zone" id="dropZone">
+      <div class="upload-zone" id="dropZone" tabindex="-1">
         <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" multiple/>
         <div class="upload-text">Drop file here or click to browse</div>
         <div class="upload-hint">CSV · XLSX · XLS &nbsp;·&nbsp; Multiple files supported</div>
@@ -662,7 +814,38 @@ const followupInput = document.getElementById('followupInput');
 const followupBtn   = document.getElementById('followupBtn');
 const modelBadge    = document.getElementById('modelBadge');
 
-fetch('/model').then(r=>r.json()).then(d=>{ modelBadge.textContent = d.model }).catch(()=>{});
+fetch('/model').then(r=>{ if(!r.ok) throw new Error('Model unavailable'); return r.json(); }).then(d=>{ if(d.model) modelBadge.textContent = d.model; else modelBadge.hidden = true; }).catch(()=>{ modelBadge.hidden = true; });
+
+const navMenuToggle = document.getElementById('navMenuToggle');
+const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+function closeMobileNav(restoreFocus = false) {
+  mobileNavOverlay.hidden = true;
+  navMenuToggle.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('mobile-nav-open');
+  if (restoreFocus) navMenuToggle.focus();
+}
+navMenuToggle.addEventListener('click', () => {
+  const open = navMenuToggle.getAttribute('aria-expanded') !== 'true';
+  navMenuToggle.setAttribute('aria-expanded', String(open));
+  mobileNavOverlay.hidden = !open;
+  document.body.classList.toggle('mobile-nav-open', open);
+  if (open) mobileNavOverlay.querySelector('.mobile-nav-link')?.focus();
+});
+document.getElementById('mobileNavClose').addEventListener('click', () => closeMobileNav(true));
+mobileNavOverlay.addEventListener('click', event => {
+  if (event.target === mobileNavOverlay) closeMobileNav(true);
+  if (event.target.closest('a')) closeMobileNav();
+});
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && !mobileNavOverlay.hidden) closeMobileNav(true); });
+window.addEventListener('resize', () => { if (window.innerWidth > 1023 && !mobileNavOverlay.hidden) closeMobileNav(); });
+document.getElementById('heroStartAnalysis').addEventListener('click', () => {
+  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  dropZone.scrollIntoView({behavior,block:'center'});
+  dropZone.focus({preventScroll:true});
+});
+if (window.location.hash === '#dropZone') {
+  requestAnimationFrame(() => { const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'; dropZone.scrollIntoView({behavior,block:'center'}); dropZone.focus({preventScroll:true}); });
+}
 
 
 // Check if a cleaned CSV was sent from the Preprocessor via URL param
@@ -1258,14 +1441,27 @@ document.addEventListener('click', e => {
 });
 
 // HISTORY
+function openHistoryPanel() {
+  const panel = document.getElementById('historyPanel');
+  panel.classList.add('open');
+  loadHistory();
+}
 document.getElementById('historyToggle').addEventListener('click', () => {
   const panel = document.getElementById('historyPanel');
-  panel.classList.toggle('open');
-  if (panel.classList.contains('open')) loadHistory();
+  if (panel.classList.contains('open')) panel.classList.remove('open');
+  else openHistoryPanel();
+});
+document.getElementById('mobileHistoryToggle').addEventListener('click', () => {
+  closeMobileNav();
+  openHistoryPanel();
 });
 document.getElementById('historyClose').addEventListener('click', () => {
   document.getElementById('historyPanel').classList.remove('open');
 });
+if (new URLSearchParams(window.location.search).get('show_history') === '1') {
+  openHistoryPanel();
+  window.history.replaceState({}, '', '/');
+}
 
 async function loadHistory() {
   const list = document.getElementById('historyList');

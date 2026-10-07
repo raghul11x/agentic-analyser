@@ -14,6 +14,21 @@
     --danger:#ff6b6b; --teal:#3effb4; --orange:#ffb347;
     --radius:8px; --radius-lg:12px;
     --font:'Inter','Segoe UI',system-ui,sans-serif;
+    --nav-height:76px; --nav-link-gap:8px;
+    --nav-gap:24px; --nav-action-gap:16px; --nav-link-padding-x:17px; --nav-link-height:40px;
+    --nav-control-size:44px; --nav-pill-radius:999px; --nav-mobile-padding:28px;
+    --nav-mobile-link-height:64px; --nav-mobile-gap:12px;
+    --nav-border-color:rgba(255,255,255,.075); --nav-glass:rgba(11,11,18,.24);
+    --nav-links-glass:rgba(7,7,13,.2); --nav-muted:rgba(255,255,255,.68);
+    --nav-hover:rgba(255,255,255,.075); --nav-active:rgba(255,255,255,.13);
+    --nav-model-bg:rgba(10,10,17,.3); --nav-model-border:rgba(255,255,255,.12); --nav-model-text:rgba(255,255,255,.7);
+    --nav-divider-color:rgba(255,255,255,.18); --nav-control-bg:rgba(15,15,24,.45); --nav-control-border:rgba(255,255,255,.15);
+    --nav-overlay-bg:rgba(9,9,16,.88); --nav-mobile-link-bg:rgba(255,255,255,.045);
+    --nav-mobile-link-border:rgba(255,255,255,.11); --nav-mobile-link-active:rgba(255,255,255,.12); --nav-focus:var(--accent);
+    --nav-white:#fff; --nav-logo-glow:rgba(179,56,44,.2); --nav-links-border:rgba(255,255,255,.09);
+    --nav-inset-highlight:rgba(255,255,255,.08); --nav-transition:.2s; --nav-mobile-link-radius:18px;
+    --nav-mobile-active-border:rgba(255,255,255,.28); --nav-tablet-gap:14px; --nav-tablet-action-gap:12px;
+    --nav-mobile-control-size:40px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;display:flex;flex-direction:column;font-size:14px}
@@ -174,26 +189,48 @@
   @keyframes liquid-metal-spin{to{--liquid-angle:360deg}}
   @keyframes liquid-metal-sweep{0%,15%{left:-70%;opacity:0}30%{opacity:.9}65%,100%{left:135%;opacity:0}}
   @media(prefers-reduced-motion:reduce){button{transition:none!important}button:before,button:after{animation:none!important;opacity:0!important}button:not(:disabled):hover,button:not(:disabled):active{transform:none}}
+  .layout { height:calc(100svh - var(--nav-height)); }
+  @media(max-width:760px) { .layout { min-height:calc(100svh - var(--nav-height)); } }
 </style>
+<link rel="stylesheet" href="/static/shared.css"/>
 </head>
 <body>
 
-<header>
-  <div style="margin-right:28px">
-    <div class="logo">Agentic Analyser</div>
-    <div class="logo-sub">Autonomous Data Intelligence</div>
+<header class="app-navbar">
+  <a class="app-brand" href="/" aria-label="Agentic Analyser home">
+    <svg viewBox="0 0 40 40" role="img" aria-label=""><path d="M8 29 18 11l8 18 7-13M8 29h25M18 11h15"/><circle cx="8" cy="29" r="2.5"/><circle cx="18" cy="11" r="2.5"/><circle cx="26" cy="29" r="2.5"/><circle cx="33" cy="16" r="2.5"/></svg>
+    <span>Agentic Analyser</span>
+  </a>
+  <nav class="app-nav-links" aria-label="Main navigation">
+    <a href="/" class="nav-link tab">Analyse</a>
+    <a href="/preprocess" class="nav-link tab active" aria-current="page">Preprocess</a>
+    <a href="/?show_history=1" class="nav-link tab">History</a>
+  </nav>
+  <div class="nav-actions">
+    <div class="model-pill" id="modelBadge" aria-label="Primary model">Connecting…</div>
+    <span class="nav-divider" aria-hidden="true"></span>
+    <button class="btn btn-primary nav-cta" id="navStartAnalysis" type="button">Start Analysis</button>
+    <button class="nav-menu-toggle" id="navMenuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileNavOverlay">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
   </div>
-  <a href="/" class="tab">Analyse</a>
-  <a href="/preprocess" class="tab active">Preprocess</a>
-  <div class="model-pill" id="modelBadge">—</div>
 </header>
+
+<div class="mobile-nav-overlay" id="mobileNavOverlay" hidden>
+  <button class="mobile-nav-close" id="mobileNavClose" type="button" aria-label="Close navigation menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+  <nav class="mobile-nav-list" aria-label="Mobile navigation">
+    <a href="/" class="mobile-nav-link">Analyse</a>
+    <a href="/preprocess" class="mobile-nav-link active" aria-current="page">Preprocess</a>
+    <a href="/?show_history=1" class="mobile-nav-link">History</a>
+  </nav>
+</div>
 
 <div class="layout">
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="s-block" style="padding-top:18px">
       <span class="field-label">Dataset</span>
-      <div class="upload-zone" id="dropZone">
+      <div class="upload-zone" id="dropZone" tabindex="-1">
         <input type="file" id="fileInput" accept=".csv,.xlsx,.xls"/>
         <div class="upload-text">Drop file here or click to browse</div>
         <div class="upload-hint">CSV · XLSX · XLS</div>
@@ -253,7 +290,35 @@ const downloadWrap = document.getElementById('downloadWrap');
 const content      = document.getElementById('content');
 const logList      = document.getElementById('logList');
 
-fetch('/model').then(r=>r.json()).then(d=>{ document.getElementById('modelBadge').textContent = d.model }).catch(()=>{});
+const modelBadge = document.getElementById('modelBadge');
+fetch('/model').then(r=>{ if(!r.ok) throw new Error('Model unavailable'); return r.json(); }).then(d=>{ if(d.model) modelBadge.textContent = d.model; else modelBadge.hidden = true; }).catch(()=>{ modelBadge.hidden = true; });
+
+const navMenuToggle = document.getElementById('navMenuToggle');
+const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+function closeMobileNav(restoreFocus = false) {
+  mobileNavOverlay.hidden = true;
+  navMenuToggle.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('mobile-nav-open');
+  if (restoreFocus) navMenuToggle.focus();
+}
+navMenuToggle.addEventListener('click', () => {
+  const open = navMenuToggle.getAttribute('aria-expanded') !== 'true';
+  navMenuToggle.setAttribute('aria-expanded', String(open));
+  mobileNavOverlay.hidden = !open;
+  document.body.classList.toggle('mobile-nav-open', open);
+  if (open) mobileNavOverlay.querySelector('.mobile-nav-link')?.focus();
+});
+document.getElementById('mobileNavClose').addEventListener('click', () => closeMobileNav(true));
+mobileNavOverlay.addEventListener('click', event => {
+  if (event.target === mobileNavOverlay) closeMobileNav(true);
+  if (event.target.closest('a')) closeMobileNav();
+});
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && !mobileNavOverlay.hidden) closeMobileNav(true); });
+window.addEventListener('resize', () => { if (window.innerWidth > 1023 && !mobileNavOverlay.hidden) closeMobileNav(); });
+document.getElementById('navStartAnalysis').addEventListener('click', () => { window.location.href = '/#dropZone'; });
+if (window.location.hash === '#dropZone') {
+  requestAnimationFrame(() => { const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'; dropZone.scrollIntoView({behavior,block:'center'}); dropZone.focus({preventScroll:true}); });
+}
 
 // Auto-load dataset sent from Analyser tab
 (async function checkAnalyseHandoff() {
